@@ -142,7 +142,27 @@
 
 <p>6、等待运行成功，这里我们选择steam（序号51），然后选择序号3，在浏览器中访问输出的网址，输入账号密码，即可在kali终端看到用户的账号和密码。</p>
 <p><img src="https://raw.githubusercontent.com/Runner691/image/main/imgimage-20231203132505394.png"></p>
-<h1 id="星期四"><a href="#星期四" class="headerlink" title="星期四"></a>星期四</h1>
+<h1 id="星期四"><a href="#星期四" class="headerlink" title="星期四"></a>星期四</h1><h3 id="GitHub使用"><a href="#GitHub使用" class="headerlink" title="GitHub使用"></a>GitHub使用</h3><p>1、注册一个GitHub账号。</p>
+<p>2、下载并安装Git和node。</p>
+<p>3、打开此电脑，新建一个文件夹“boke”，右键点击“Open Git bash here”。</p>
+<p><img src="https://raw.githubusercontent.com/Runner691/image/main/imgimage-20231203134000159.png"></p>
+<p>4、输入下面代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">npm install -g hexo-cli</span><br><span class="line">hexo init blog</span><br><span class="line">cd blog</span><br><span class="line">hexo g</span><br></pre></td></tr></table></figure>
+
+<p>5、输入hexo s启动本地服务器，在浏览器中访问127.0.0.1:4000查看效果。</p>
+<p><img src="https://raw.githubusercontent.com/Runner691/image/main/imgimage-20231203134454298.png"></p>
+<p>6、ctrl+c关闭本地服务器，输入下面代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hexo clean </span><br><span class="line">ssh-keygen -t rsa -C “邮件地址”</span><br></pre></td></tr></table></figure>
+
+<p>7、进入C盘，点击用户，进入admin，选择.ssh文件，选择id_rsa以记事本打开，复制粘贴至GitHub的设置ssh keys中生成密钥。</p>
+<p><img src="https://raw.githubusercontent.com/Runner691/image/main/imgimage-20231203140914950.png"></p>
+<p>8、依次输入下面命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ssh -T git@github.com</span><br><span class="line">npm install hexo-deployer-git –save</span><br><span class="line">git config –global user.name “xxx”// 你的github用户名，非昵称</span><br><span class="line">git config –global user.email “xxx@qq.com“// 填写你的github注册邮箱</span><br></pre></td></tr></table></figure>
+
+<p>9、进入GitHub，创建一个库。</p>
+<p><img src="https://raw.githubusercontent.com/Runner691/image/main/imgimage-20231203142401357.png"></p>
+<p>10、运行hexo d -g，生成静态文件并上传。</p>
+
       
     </div>
     <footer>
